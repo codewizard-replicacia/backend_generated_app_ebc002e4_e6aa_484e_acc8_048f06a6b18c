@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<edmx:Edmx Version="4.0"
+	xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+	<edmx:DataServices>
+		<Schema xmlns="http://docs.oasis-open.org/odata/ns/edm"
+			Namespace="OData.Ecom">
+			
+			<EntityType Name="ProductType">
+				<Key>
+					<PropertyRef Name="TypeCode" />
+				</Key>
+				<Property Name="TypeCode" Type="Edm.Int32" />
+				<Property Name="ProductTypeDescription" Type="Edm.String" />
+			</EntityType>
+			
+			<EntityType Name="Product">
+				<Key>
+					<PropertyRef Name="Product_Id" />
+				</Key>
+				<Property Name="Product_Id" Type="Edm.Int32" />
+				<Property Name="ProductName" Type="Edm.String" />
+				<Property Name="ProductDescription" Type="Edm.String" />
+				
+				<Property Name="ReturnMerchandiseAuthNotReqd" Type="Edm.Boolean" />
+				<Property Name="ProductPrice" Type="Edm.Decimal" />
+				<Property Name="ProductColor" Type="Edm.String" />
+				<Property Name="ProductSize" Type="Edm.String" />
+					
+				<NavigationProperty Name="ProductTypeCode" Type="OData.Ecom.ProductType" />					
+			</EntityType>
+			
+			<EntityType Name="OrderItem">
+				<Key>
+					<PropertyRef Name="Item_Id" />
+				</Key>
+				<Property Name="Item_Id" Type="Edm.Int32" />
+				<Property Name="OrderItemPrice" Type="Edm.Decimal" />
+
+				<!-- Delivered, Out-of-stock -->
+				<Property Name="OrderItemStatus" Type="Edm.String" />
+				
+				<Property Name="RMANumber" Type="Edm.Int32" />
+				<Property Name="RMAIssuedBy" Type="Edm.Int32" />
+				<Property Name="RMAIssuedDate" Type="Edm.Int32" />
+				
+				<NavigationProperty Name="Product" Type="OData.Ecom.Product" />
+				<NavigationProperty Name="Order" Type="OData.Ecom.Order" Nullable="false"  			Partner="OrderItems" />
+			</EntityType>
+			
+			<EntityType Name="Order">
+				<Key>
+					<PropertyRef Name="Order_Id" />
+				</Key>
+				<Property Name="Order_Id" Type="Edm.Int32" />
+				<!-- Cancelled, Completed -->
+				<Property Name="OrderStatus" Type="Edm.String" />
+				
+				<!-- <NavigationProperty Name="Customer" Type="OData.Ecom.Customer" /> -->
+				<NavigationProperty Name="OrderItems" Type="Collection(OData.Ecom.OrderItem)" Partner="Order" />
+
+			</EntityType>
+			
+			<EntityType Name="Customer">
+				<Key>
+					<PropertyRef Name="Customer_Id" />
+				</Key>
+				<Property Name="Customer_Id" Type="Edm.Int32" />
+				<Property Name="OrganisationOrPerson" Type="Edm.String" />
+				<Property Name="OrganisationName" Type="Edm.String" />
+				<Property Name="Gender" Type="Edm.String" />
+				<Property Name="FirstName" Type="Edm.String" />
+				<Property Name="MiddleName" Type="Edm.String" />
+				<Property Name="LastName" Type="Edm.String" />
+				
+				<Property Name="EmailAddress" Type="Edm.String" />
+				<!--
+				<Property Name="loginName" Type="Edm.String" />
+				<Property Name="loginPassword" Type="Edm.String" />	-->
+				
+				<Property Name="PhoneNumber" Type="Edm.String" />
+				<Property Name="Address" Type="Edm.String" />
+				<Property Name="City" Type="Edm.String" />
+				<Property Name="Country" Type="Edm.String" />
+				
+			</EntityType>
+			
+			
+			<EntityContainer Name="Container">
+				<EntitySet Name="ProductTypes" EntityType="OData.Ecom.ProductType"></EntitySet>
+				<EntitySet Name="Products" EntityType="OData.Ecom.Product">
+					<NavigationPropertyBinding Path="ProductTypeCode" Target="ProductTypes" />
+				</EntitySet>
+				
+				<EntitySet Name="OrderItems" EntityType="OData.Ecom.OrderItem">
+					<NavigationPropertyBinding Path="Product" Target="Products" />
+					<NavigationPropertyBinding Path="Order" Target="Orders" />
+				</EntitySet>
+				
+				<EntitySet Name="Orders" EntityType="OData.Ecom.Order">
+					<NavigationPropertyBinding Path="Customer" Target="Customers" />
+					<NavigationPropertyBinding Path="OrderItems" Target="OrderItems" />
+				</EntitySet>
+				
+				<EntitySet Name="Customers" EntityType="OData.Ecom.Customer"></EntitySet>
+				
+				
+			</EntityContainer>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

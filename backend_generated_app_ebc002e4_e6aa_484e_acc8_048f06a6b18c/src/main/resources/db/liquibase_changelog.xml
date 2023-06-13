@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <property name="schemaName" value="generated_app"></property>
+    <property name="author=" value="db-designer"></property>
+    <changeSet id="v1-01-01" author="${author}">
+    
+ <createTable schemaName="${schemaName}" tableName="Order">
+	<column name="Order_Id" type="SERIAL" autoIncrement="true" >
+        <constraints nullable="false" primaryKey="true"/>
+    </column>
+     <column name="OrderStatus" type="VARCHAR(250)" />
+    
+ 	
+</createTable>
+ <createTable schemaName="${schemaName}" tableName="Customer">
+	<column name="Customer_Id" type="SERIAL" autoIncrement="true" >
+        <constraints nullable="false" primaryKey="true"/>
+    </column>
+     <column name="OrganisationOrPerson" type="VARCHAR(250)" />
+    
+     <column name="OrganisationName" type="VARCHAR(250)" />
+    
+     <column name="Gender" type="VARCHAR(250)" />
+    
+     <column name="FirstName" type="VARCHAR(250)" />
+    
+     <column name="MiddleName" type="VARCHAR(250)" />
+    
+     <column name="LastName" type="VARCHAR(250)" />
+    
+     <column name="EmailAddress" type="VARCHAR(250)" />
+    
+     <column name="PhoneNumber" type="VARCHAR(250)" />
+    
+     <column name="Address" type="VARCHAR(250)" />
+    
+     <column name="City" type="VARCHAR(250)" />
+    
+     <column name="Country" type="VARCHAR(250)" />
+    
+ 	
+</createTable>
+ <createTable schemaName="${schemaName}" tableName="OrderItem">
+	<column name="Item_Id" type="SERIAL" autoIncrement="true" >
+        <constraints nullable="false" primaryKey="true"/>
+    </column>
+     <column name="OrderItemPrice" type="DECIMAL" />
+    
+     <column name="OrderItemStatus" type="VARCHAR(250)" />
+    
+     <column name="RMANumber" type="SERIAL" />
+    
+     <column name="RMAIssuedBy" type="SERIAL" />
+    
+     <column name="RMAIssuedDate" type="SERIAL" />
+    
+ 	
+</createTable>
+ <createTable schemaName="${schemaName}" tableName="ProductType">
+	<column name="TypeCode" type="SERIAL" autoIncrement="true" >
+        <constraints nullable="false" primaryKey="true"/>
+    </column>
+     <column name="ProductTypeDescription" type="VARCHAR(250)" />
+    
+ 	
+</createTable>
+ <createTable schemaName="${schemaName}" tableName="Product">
+	<column name="Product_Id" type="SERIAL" autoIncrement="true" >
+        <constraints nullable="false" primaryKey="true"/>
+    </column>
+     <column name="ProductName" type="VARCHAR(250)" />
+    
+     <column name="ProductDescription" type="VARCHAR(250)" />
+    
+     <column name="ReturnMerchandiseAuthNotReqd" type="BOOLEAN" />
+    
+     <column name="ProductPrice" type="DECIMAL" />
+    
+     <column name="ProductColor" type="VARCHAR(250)" />
+    
+     <column name="ProductSize" type="VARCHAR(250)" />
+    
+ 	
+</createTable>
+	
+
+	
+ 
+ 
+ 	<addColumn tableName="OrderItem" schemaName="${schemaName}">
+	    <column name="OrderItemProduct" type="SERIAL"/>
+	</addColumn>
+	<addForeignKeyConstraint baseTableName="OrderItem" baseColumnNames="OrderItemProduct" baseTableSchemaName="${schemaName}" constraintName="OrderItem_Product_fk" referencedTableName="Product"
+	                                 referencedColumnNames="Product_Id" referencedTableSchemaName="${schemaName}"/>
+ 
+
+ 
+ 	<addColumn tableName="Product" schemaName="${schemaName}">
+	    <column name="ProductProductTypeCode" type="SERIAL"/>
+	</addColumn>
+	<addForeignKeyConstraint baseTableName="Product" baseColumnNames="ProductProductTypeCode" baseTableSchemaName="${schemaName}" constraintName="Product_ProductTypeCode_fk" referencedTableName="ProductType"
+	                                 referencedColumnNames="TypeCode" referencedTableSchemaName="${schemaName}"/>
+ 
+
+	    </changeSet>
+</databaseChangeLog>
